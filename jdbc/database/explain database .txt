@@ -1,0 +1,20 @@
+
+
+
+//لو الداتا بيز موجوده احزفها علشان هكريت واحده جديده
+DROP DATABASE IF EXISTS jdbc_full_instructions;
+//كريت الجديديه بالاسم ده
+CREATE DATABASE  jdbc_full_instructions;
+//هنستخدم الداتا بيز دي علشان
+USE jdbc_full_instructions;
+//علشان نكريت التيبول ده بالاسم ده
+CREATE TABLE employee(
+//الخانات اللي فيه هي دي
+id INT(15) PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(30),
+gender BOOLEAN,
+birth_date Date,
+salary REAL
+);
+
+ هنروح نعمل دروب للداتا بيز دي علي php my admin علشان نبدا تعامل معاها وده من خلال عمل امبورت من صفحه الادمن للباس بتاع الفايل ده
