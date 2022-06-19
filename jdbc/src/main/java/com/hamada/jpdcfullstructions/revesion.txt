@@ -1,0 +1,202 @@
+package com.company;
+/**
+ * the IDE auto generate an entity database file.iml to have an directory use of database => Database.iml file
+ * we added mysql-connector-java-8.0.29.jar  folder as a library to set the project to connect drivers JDBC to database ==> we can add it as a library by clicking on add as a library from it's options
+ *
+ *  */
+public class Main {
+
+
+    public static void main(String[] args) {
+
+    }
+}
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+
+public class Test {
+
+    public static void connection(){
+        try {
+            Connection c = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/student?serverTimezone=UTC",
+                    "hassan",
+                    "hassan12345"
+            );
+
+            System.out.println("OK !");
+            Statement s = c.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet r = s.executeQuery("SELECT `id`, `firstName`, `lastName`, `city` FROM `info`");
+            ResultSetMetaData rm = r.getMetaData();
+
+            //r.next(); r.previous(); r.absolute(4); r.relative(-1);
+            //r.first(); r.beforeFirst(); r.last();r.afterLast();
+            //r.isFirst(); r.isBeforeFirst(); r.isLast();r.isAfterLast();
+
+            //if (r.isBeforeFirst()){r.next();}
+            //if (r.isAfterLast()){r.previous();}
+
+            /*
+            r.moveToInsertRow();
+            r.updateInt("id", 10);
+            r.updateString("firstName", "Ali");
+            r.updateString("lastName", "Ali");
+            r.updateString("city", "Baghdad");
+            r.insertRow();
+             */
+
+            for (int i=1; i<=rm.getColumnCount(); i++){
+                System.out.print(String.format("%-15s", rm.getColumnName(i)));
+            }
+            System.out.println("\n");
+
+            for (int i=1; i<=rm.getColumnCount(); i++){
+                System.out.print(
+                        String.format(
+                                "%-15s", rm.getColumnTypeName(i)+" "+rm.getColumnType(i)
+                        ));
+            }
+            System.out.println("\n");
+
+            int i=0;
+            while (r.next()){
+                i = r.getRow(); //i++
+                //if (r.getRow()==3) continue;
+
+                /*
+                if (r.getRow()==5){
+                    r.updateInt("id", 80);
+                    r.updateString("firstName", "Ali");
+                    r.updateString("lastName", "Ahmed");
+                    r.updateRow();
+                }
+                */
+                if (r.getRow()==6){
+                    r.deleteRow();
+                    continue;
+                }
+
+                System.out.println(String.format(
+                        "%-15s%-15s%-15s%-15s",
+                        r.getInt("id"),
+                        r.getString("firstName"),
+                        r.getString("lastName"),
+                        r.getString("city")
+                ));
+            }
+            System.out.println("Number of Rows = "+i);
+            System.out.println("Number of Column = "+rm.getColumnCount());
+
+        }
+
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+<dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.49</version>
+        </dependency>
+    </dependencies>
+    package netwark;
+
+    import javax.xml.transform.Result;
+    import java.sql.*;
+
+    public class Test {
+    /// we add a function to invoke it to connect to database we created by XAMPP
+        ///we add new database with MY PHP admin
+           /// using apache and MySql
+              ///connect to database as here
+                 /// try catch block to handle any exceptions
+                    ///we use DriverManager, and it's getConnection method to establish connection
+                       ///set the url and username,password to begin connection
+                          ///Statement to give use the point where connecting to database with class connection, and it's method createStatement
+                             /// we use ResultSet to collect data from our query which come from our Statement connection point
+                                /// we get the query from XAMPP database php admin by create query there
+                                   /// by creating ResultSet we will be able to use methods as below
+        public static void connect() {
+
+            try {
+                Connection connection = DriverManager.getConnection(
+                        "jdbc:mysql://localhost/students?serverTimezone=UTC", "hamada", "hamada012"
+                );
+                System.out.println("ok connected successfully");
+                Statement s = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                System.out.println(connection.getCatalog());
+                ResultSet r = s.executeQuery("SELECT `id`, `fname`, `lname`, `address`  FROM `student`");
+    // التالي
+                r.next();
+                // الاول
+                r.first();
+                //لو الاول ترو لو مش الاول فولص
+                r.isFirst();
+                //الاخير
+                r.last();
+                System.out.println(r.isLast() + "\n" + "\n");
+                //اي ي في وضع البدايه  هل بترجع ترو او فولص
+                r.isBeforeFirst();
+                //عند نقطه معينه
+                r.absolute(2);
+                // بتحط المؤشر قبل البدايه بترجعه لوضع الاتعداد
+                r.beforeFirst();
+                System.out.println(r.isBeforeFirst() + "\n");
+                // ضع المؤشر بعد النهايه
+                r.afterLast();
+                System.out.println(r.isAfterLast() + "\n");
+                //اذهب الي السابق
+                r.previous();
+                // زي الابسوليوت بس من النهايه
+                r.relative(-1);
+                if (r.isAfterLast()) {
+                    r.previous();
+                }
+                if (r.isBeforeFirst()) {
+                    r.next();
+                }
+                int x = 1;
+                for (r.first(); !r.isAfterLast(); r.next()) {
+    // تعطينا رقم الصف الحالي
+                    x = r.getRow();
+                    if(r.getRow()==2){
+                        r.updateString("fname","ffffffff");
+                        r.rowUpdated();
+                    }
+                    System.out.println(
+                            r.getInt("id") + "  " +
+                                   r.getString("fname") + " " +
+                                    r.getString("lname") + "  " +
+                                    r.getString("address")
+                    );
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e + "error");
+
+            }
+        }
+    }
+    /*
+    //خد بالك علشان ميحصلش تكرار لل id  اعمل اتشكايه انها بتفحص لو ال هي موجود او لا
+            *** r.update => هيظهرلطك كل الدوال اللي تاعدك تعمل ابديت
+            *** r.insert => the same thing 1- r.moveToInsertRow(); 2- call update to set values then use r.insertRow();
+            *** r.delete => the same thing
+
+     * */
+    /*
+    insert update delete all are in a statement done
+    result set meta data class methods for column
+    */
+
